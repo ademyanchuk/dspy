@@ -48,6 +48,8 @@ def test_list_get_item_err():
     llist = LinkedList()
     with pytest.raises(IndexError, match="out of range"):
         llist[0]
+    with pytest.raises(IndexError, match="out of range"):
+        llist[-1]
 
 
 def test_list_get_item_zero():
@@ -57,7 +59,7 @@ def test_list_get_item_zero():
         assert n.data == 1
 
 
-def test_list_ser_item_err():
+def test_list_set_item_err():
     llist = LinkedList()
     with pytest.raises(IndexError, match="out of range"):
         llist[0] = 1
@@ -185,3 +187,46 @@ def test_list_peek_back():
     llist = LinkedList(1)
     llist.push_back(2)
     assert llist.peek_back() == 2
+
+
+def test_list_insert_out_index_back():
+    # idx == len and positive
+    llist = LinkedList(1)
+    llist.push_back(2)
+    llist.insert(2, 3)
+    assert len(llist) == 3
+    assert str(llist) == "LinkedList([1,2,3])"
+
+
+def test_list_insert_out_index_front():
+    # normilized idx == 0
+    llist = LinkedList(1)
+    llist.push_back(2)
+    llist.insert(-2, 3)
+    assert len(llist) == 3
+    assert str(llist) == "LinkedList([3,1,2])"
+
+
+def test_list_insert_in_range_positive():
+    # before last
+    llist = LinkedList(1)
+    for i in range(2, 5):
+        llist.push_front(i)
+
+    length = len(llist)
+    idx = length - 1
+    llist.insert(idx, 10)
+    assert len(llist) == length + 1
+    assert llist[idx].data == 10
+
+
+def test_list_insert_in_range_negative():
+    # before last
+    llist = LinkedList(1)
+    for i in range(2, 5):
+        llist.push_front(i)
+
+    length = len(llist)
+    llist.insert(-3, 10)  # -3 is index 1 for current list
+    assert len(llist) == length + 1
+    assert llist[-4].data == 10  # -4 is index 1 for updated list
