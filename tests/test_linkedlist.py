@@ -127,3 +127,27 @@ def test_list_push_front_and_back():
     llist.push_front(1)
     llist.push_back(2)
     assert str(llist) == "LinkedList([1,2])"
+
+
+def test_list_pop_back_raise():
+    llist = LinkedList()
+    with pytest.raises(IndexError, match="empty linked list"):
+        llist.pop_back()
+
+
+def test_list_pop_back_ok():
+    llist = LinkedList(1)
+    llist.push_back(2)
+    _ = llist.pop_back()
+    assert str(llist) == "LinkedList([1])"
+
+
+def test_list_pop_back_last_node():
+    # then we poped last node both head and tail
+    # should be None
+    llist = LinkedList(1)
+    llist.push_back(2)
+    _ = llist.pop_back()
+    _ = llist.pop_back()
+    assert llist.head is None
+    assert llist.tail is None

@@ -38,6 +38,7 @@ class LinkedList(Generic[T]):
         return self._size
 
     def __getitem__(self, idx: int):
+        """get item is O(n) time complexity"""
         if len(self) <= idx:
             raise IndexError("linked list index out of range")
         cur = self.head
@@ -103,3 +104,24 @@ class LinkedList(Generic[T]):
             self.tail = node
             tmp.next = self.tail
         self._size += 1
+
+    def pop_back(self) -> T:
+        """Will pop the node from back and return its value
+
+        Raises:
+            IndexError: if trying to pop from empty list
+
+        Returns:
+            T: value of the node at the back of the
+            linked list
+        """
+        if not self:
+            raise IndexError("pop from empty linked list")
+        value = self.tail.data
+        if len(self) == 1:
+            self.tail = None
+            self.head = self.tail
+        else:
+            self.tail = self[-2]  # it is O(n) operation
+        self._size -= 1
+        return value
