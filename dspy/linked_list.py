@@ -21,7 +21,7 @@ class ListNode(Generic[T]):
 
 
 class LinkedList(Generic[T]):
-    """Singly LinkedList"""
+    """Singly LinkedList [not tread safe]"""
 
     def __init__(self, value: Optional[T] = None) -> None:
         """Initialize empty instance or provide a value
@@ -47,6 +47,18 @@ class LinkedList(Generic[T]):
             cur = cur.next  # noqa we've checked idx is valid
             i += 1
         return cur
+
+    def __setitem__(self, idx: int, value: T):
+        if idx == (len(self) - 1):
+            # last is faster to set via tail
+            self.tail.data = value
+            return
+
+        try:
+            node = self[idx]
+        except IndexError:
+            raise
+        node.data = value
 
     def __repr__(self) -> str:
         return f"{__class__.__name__}(value={self.head!s})"

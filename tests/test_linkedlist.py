@@ -57,6 +57,20 @@ def test_list_get_item_zero():
         assert n.data == 1
 
 
+def test_list_ser_item_err():
+    llist = LinkedList()
+    with pytest.raises(IndexError, match="out of range"):
+        llist[0] = 1
+
+
+def test_list_set_item_zero():
+    llist = LinkedList(1)
+    llist[0] = 123
+    n = llist[0]
+    if n is not None:
+        assert n.data == 123
+
+
 def test_list_push_front():
     llist = LinkedList(1)
     llist.push_front(2)
