@@ -151,3 +151,23 @@ def test_list_pop_back_last_node():
     _ = llist.pop_back()
     assert llist.head is None
     assert llist.tail is None
+
+
+def test_list_peek_raise():
+    llist = LinkedList()
+    with pytest.raises(IndexError, match="empty linked list"):
+        llist.peek_front()
+    with pytest.raises(IndexError, match="empty linked list"):
+        llist.peek_back()
+
+
+def test_list_peek_front():
+    llist = LinkedList(1)
+    llist.push_front(2)
+    assert llist.peek_front() == 2
+
+
+def test_list_peek_back():
+    llist = LinkedList(1)
+    llist.push_back(2)
+    assert llist.peek_back() == 2

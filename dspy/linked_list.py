@@ -80,12 +80,15 @@ class LinkedList(Generic[T]):
         if not self:
             raise IndexError("pop from empty linked list")
         tmp = self.head
+        value = tmp.data
         self.head = tmp.next
+        del tmp
+
         self._size -= 1
         if not self:
             # drop tail as well
             self.tail = self.head
-        return tmp.data
+        return value
 
     def push_back(self, value: T):
         """Push a node with data `value` to the
@@ -125,3 +128,31 @@ class LinkedList(Generic[T]):
             self.tail = self[-2]  # it is O(n) operation
         self._size -= 1
         return value
+
+    def peek_front(self) -> T:
+        """Helper to just peek a front value. User can
+        access linked list elements through indexing syntax
+
+        Raises:
+            IndexError: if peeking into empty list
+
+        Returns:
+            T: data value of front node
+        """
+        if not self:
+            raise IndexError("peek from empty linked list")
+        return self.head.data
+
+    def peek_back(self) -> T:
+        """Helper to just peek a back value. User can
+        access linked list elements through indexing syntax
+
+        Raises:
+            IndexError: if peeking into empty list
+
+        Returns:
+            T: data value of front node
+        """
+        if not self:
+            raise IndexError("peek from empty linked list")
+        return self.tail.data
