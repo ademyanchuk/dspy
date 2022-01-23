@@ -27,9 +27,11 @@ class LinkedList(Generic[T]):
         """Initialize empty instance or provide a value
         and initialize with one node"""
         self.head = None
+        self.tail = None
         self._size = 0
         if value is not None:
             self.head = ListNode(value)
+            self.tail = self.head
             self._size += 1
 
     def __len__(self):
@@ -60,6 +62,8 @@ class LinkedList(Generic[T]):
         """
         node = ListNode(value, self.head)
         self.head = node
+        if not self:  # empty list
+            self.tail = self.head
         self._size += 1
 
     def pop_front(self) -> T:
@@ -77,4 +81,25 @@ class LinkedList(Generic[T]):
         tmp = self.head
         self.head = tmp.next
         self._size -= 1
+        if not self:
+            # drop tail as well
+            self.tail = self.head
         return tmp.data
+
+    def push_back(self, value: T):
+        """Push a node with data `value` to the
+        back of linked list
+
+        Args:
+            value (T): value of the element to push
+        """
+        node = ListNode(value)
+        if not self:
+            # list is empty, just assign head and tail to the node
+            self.tail = node
+            self.head = self.tail
+        else:
+            tmp = self.tail
+            self.tail = node
+            tmp.next = self.tail
+        self._size += 1

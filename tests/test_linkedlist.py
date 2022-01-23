@@ -13,6 +13,12 @@ def test_node_str():
     assert str(node) == "1"
 
 
+def test_init_tail():
+    llist = LinkedList(1)
+    assert llist.tail is not None
+    assert llist.head == llist.tail
+
+
 def test_list_len_empty():
     llist = LinkedList()
     assert not llist
@@ -58,6 +64,23 @@ def test_list_push_front():
     assert head is not None and head.data == 2
 
 
+def test_list_push_front_one():
+    # head and tail should be the same
+    llist = LinkedList()
+    llist.push_front(1)
+    assert llist.head is not None
+    assert llist.head == llist.tail
+
+
+def test_list_push_front_two():
+    # head and tail should be the same
+    llist = LinkedList()
+    llist.push_front(1)
+    llist.push_front(2)
+    assert llist.head is not None
+    assert llist.head != llist.tail
+
+
 def test_list_pop_front_raise():
     llist = LinkedList()
     with pytest.raises(IndexError, match="empty linked list"):
@@ -69,3 +92,38 @@ def test_list_pop_front_ok():
     llist.push_front(2)
     val = llist.pop_front()
     assert len(llist) == 1 and llist.head.data == 1 and val == 2
+
+
+def test_list_pop_front_last_node():
+    # then we poped last node both head and tail
+    # should be None
+    llist = LinkedList(1)
+    llist.push_front(2)
+    _ = llist.pop_front()
+    _ = llist.pop_front()
+    assert llist.head is None
+    assert llist.tail is None
+
+
+def test_list_push_back_one():
+    # head and tail should be the same
+    llist = LinkedList()
+    llist.push_back(1)
+    assert llist.head is not None
+    assert llist.head == llist.tail
+
+
+def test_list_push_back_two():
+    # head and tail should be the same
+    llist = LinkedList()
+    llist.push_back(1)
+    llist.push_back(2)
+    assert llist.head is not None
+    assert llist.head != llist.tail
+
+
+def test_list_push_front_and_back():
+    llist = LinkedList()
+    llist.push_front(1)
+    llist.push_back(2)
+    assert str(llist) == "LinkedList([1,2])"
