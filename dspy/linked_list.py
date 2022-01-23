@@ -62,6 +62,31 @@ class LinkedList(Generic[T]):
             raise
         node.data = value
 
+    def __delitem__(self, idx: int):
+        """Delete list node at index `idx`,
+        it is O(n) time complexity (except best case)
+
+        Args:
+            idx (int): index to delete node at
+
+        Raises:
+            IndexError: if index is out of list range
+        """
+        # normalizing index for handling negative indexing
+        idx = self._normalize_idx(idx)
+        # after idx normalization only [0, len(self)) is valid range
+        if idx >= len(self) or idx < 0:
+            raise IndexError("linked list index out of range")
+        if idx == 0:
+            _ = self.pop_front()
+        elif idx == (len(self) - 1):
+            _ = self.pop_back()
+        else:
+            before = self[idx - 1]
+            after = before.next.next
+            before.next = after
+            self._size -= 1
+
     def __repr__(self) -> str:
         return f"{__class__.__name__}(value={self.head!s})"
 

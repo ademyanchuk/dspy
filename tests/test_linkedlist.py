@@ -73,6 +73,42 @@ def test_list_set_item_zero():
         assert n.data == 123
 
 
+def test_list_del_item_err():
+    llist = LinkedList(1)
+    with pytest.raises(IndexError, match="out of range"):
+        llist[1]
+    with pytest.raises(IndexError, match="out of range"):
+        llist[-2]
+
+
+def test_list_del_item_first():
+    llist = LinkedList(1)
+    llist.push_back(2)
+    del llist[0]
+    assert len(llist) == 1
+    assert str(llist[0]) == "2"
+
+
+def test_list_del_item_last():
+    llist = LinkedList(1)
+    llist.push_back(2)
+    del llist[-1]
+    assert len(llist) == 1
+    assert str(llist[-1]) == "1"
+
+
+def test_list_del_item_middle():
+    llist = LinkedList(1)
+    llist.push_back(2)
+    llist.push_back(3)
+    del llist[1]
+    assert len(llist) == 2
+    assert llist.head is not None
+    assert llist.tail is not None
+    assert llist.head != llist.tail
+    assert str(llist) == "LinkedList([1,3])"
+
+
 def test_list_push_front():
     llist = LinkedList(1)
     llist.push_front(2)
