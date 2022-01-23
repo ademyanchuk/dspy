@@ -1,0 +1,71 @@
+import pytest
+
+from dspy.linked_list import LinkedList, ListNode
+
+
+def test_node_repr():
+    n = ListNode(1)
+    assert repr(n) == "ListNode(value=1, next=None)"
+
+
+def test_node_str():
+    node = ListNode(1)
+    assert str(node) == "1"
+
+
+def test_list_len_empty():
+    llist = LinkedList()
+    assert not llist
+
+
+def test_list_len_one():
+    llist = LinkedList("a")
+    assert len(llist) == 1
+
+
+def test_list_repr_empty():
+    llist = LinkedList()
+    assert repr(llist) == "LinkedList(value=None)"
+
+
+def test_list_repr_one():
+    llist = LinkedList(1)
+    assert repr(llist) == "LinkedList(value=1)"
+
+
+def test_list_str_one():
+    llist = LinkedList(1)
+    assert str(llist) == "LinkedList([1])"
+
+
+def test_list_get_item_err():
+    llist = LinkedList()
+    with pytest.raises(IndexError, match="out of range"):
+        llist[0]
+
+
+def test_list_get_item_zero():
+    llist = LinkedList(1)
+    n = llist[0]
+    if n is not None:
+        assert n.data == 1
+
+
+def test_list_push_front():
+    llist = LinkedList(1)
+    llist.push_front(2)
+    head = llist.head
+    assert head is not None and head.data == 2
+
+
+def test_list_pop_front_raise():
+    llist = LinkedList()
+    with pytest.raises(IndexError, match="empty linked list"):
+        llist.pop_front()
+
+
+def test_list_pop_front_ok():
+    llist = LinkedList(1)
+    llist.push_front(2)
+    val = llist.pop_front()
+    assert len(llist) == 1 and llist.head.data == 1 and val == 2
