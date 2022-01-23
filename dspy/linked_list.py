@@ -1,5 +1,4 @@
 """Singly LinkedList and common functionality Implemantation"""
-import re
 from typing import Generic, Optional, TypeVar
 
 T = TypeVar("T")
@@ -39,7 +38,10 @@ class LinkedList(Generic[T]):
 
     def __getitem__(self, idx: int):
         """get item is O(n) time complexity"""
-        if len(self) <= idx:
+        # normalizing index for handling negative indexing
+        idx = self._normalize_idx(idx)
+        # after idx normalization only [0, len(self)) is valid range
+        if idx >= len(self) or idx < 0:
             raise IndexError("linked list index out of range")
         cur = self.head
         i = 0
@@ -168,3 +170,45 @@ class LinkedList(Generic[T]):
         if not self:
             raise IndexError("peek from empty linked list")
         return self.tail.data
+
+    def insert(self, idx: int, value: T):
+        """Insert node with `value` before `idx`.
+        If `idx` is out of list range will insert
+        to the back [in accord with python built-ins].
+
+        Args:
+            idx (int): index to insert before
+            value (T): value to insert
+        """
+        idx = self._normalize_idx(idx)
+        # just push back for index bigger than valid range
+        if idx >= len(self):
+            self.push_back(value)
+        # if normalized idx <= 0 it is either out of range
+        # (to the left) or 0, just push front
+        elif idx <= 0:
+            self.push_front(value)
+        # normalized idx is in valid range of the list
+        else:
+            node = ListNode(value)
+            before = self[idx - 1]
+            node.next = before.next
+            before.next = node
+            self._size += 1
+
+    def _normalize_idx(self, idx: int) -> int:
+        """Helper to convert index to its
+        positive representation. If it is
+        negative after conversio, it is out
+        of list range (to the left so to say)
+
+        Args:
+            idx (int): index to convert
+
+        Returns:
+            [int]: index after conversion
+        """
+        if idx >= 0:
+            return idx
+        else:
+            return len(self) + idx
