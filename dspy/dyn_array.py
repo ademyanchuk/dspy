@@ -49,6 +49,9 @@ class DynamicArray:
         self._size -= 1
         self._maybe_shrink()
 
+    def __contains__(self, val: Any) -> bool:
+        return self.find(val) != -1
+
     def __repr__(self) -> str:
         return f"{__class__.__name__}(val=None)"
 

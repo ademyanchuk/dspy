@@ -60,6 +60,11 @@ def test_delete_last():
     assert a[idx] != 3 and len(a) == size - 1
 
 
+def test_contains():
+    a = DynamicArray(val=(1, 3.3, "222"))
+    assert 3.3 in a
+
+
 def test_not_find():
     a = DynamicArray()
     assert a.find("abc") == -1
