@@ -81,7 +81,12 @@ class DynamicArray:
         self.insert(0, val)
 
     def pop(self) -> Any:
-        return 0
+        if not self:
+            raise IndexError("Trying to pop from empty list")
+        val = self[-1]
+        self._size -= 1
+        self._maybe_shrink()
+        return val
 
     def _make_array(self, capacity: int):
         return (capacity * ctypes.py_object)()

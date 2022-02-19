@@ -102,6 +102,12 @@ def test_pop():
     assert last == got and len(a) == size - 1
 
 
+def test_pop_raises():
+    a = DynamicArray()
+    with pytest.raises(IndexError, match="empty list"):
+        a.pop()
+
+
 def test_maybe_shrink():
     a = DynamicArray(val=(1,))
     a._resize(8)
