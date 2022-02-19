@@ -55,7 +55,7 @@ class DynamicArray:
     def insert(self, idx: int, val: Any):
         """Insert `val` at index `idx` and
         shift the rest of an array after `idx`
-        one step to the right
+        one step to the right. O(n) time
 
         Args:
             idx (int): valid array index
@@ -71,6 +71,17 @@ class DynamicArray:
         self._size += 1
 
         self[idx] = val
+
+    def prepend(self, val: Any):
+        """Wraper to insert at index 0
+
+        Args:
+            val (Any): value to prepend
+        """
+        self.insert(0, val)
+
+    def pop(self) -> Any:
+        return 0
 
     def _make_array(self, capacity: int):
         return (capacity * ctypes.py_object)()
@@ -97,6 +108,11 @@ class DynamicArray:
         """Helpper to increase capacity"""
         if len(self) == self._cap:
             self._resize(self._cap * 2)
+
+    def _maybe_shrink(self):
+        """Helpper to decrease capacity"""
+        if len(self) < self._cap // 4:
+            self._resize(self._cap // 2)
 
     def _normalize_idx(self, idx: int) -> int:
         """Helper to convert index to its

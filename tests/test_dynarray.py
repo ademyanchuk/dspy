@@ -85,3 +85,23 @@ def test_insert():
     size = len(a)
     a.insert(idx=idx, val=val)
     assert a[idx] == val and len(a) == size + 1
+
+
+def test_prepend():
+    val = 0
+    a = DynamicArray(val=(1,))
+    a.prepend(val)
+    assert a[0] == val
+
+
+def test_pop():
+    a = DynamicArray(val=[1, 2, 3])
+    last = a[-1]
+    size = len(a)
+    got = a.pop()
+    assert last == got and len(a) == size - 1
+
+
+def test_maybe_shrink():
+    # TODO
+    assert False
