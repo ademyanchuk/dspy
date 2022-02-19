@@ -36,6 +36,40 @@ def test_set():
     assert a[2] == "c"
 
 
+def test_delete_midle():
+    a = DynamicArray(val=(1, 2, 3))
+    idx = 1
+    size = len(a)
+    del a[idx]
+    assert a[idx] != 2 and len(a) == size - 1
+
+
+def test_delete_first():
+    a = DynamicArray(val=(1, 2, 3))
+    idx = 0
+    size = len(a)
+    del a[idx]
+    assert a[idx] != 1 and len(a) == size - 1
+
+
+def test_delete_last():
+    a = DynamicArray(val=(1, 2, 3))
+    idx = -1
+    size = len(a)
+    del a[idx]
+    assert a[idx] != 3 and len(a) == size - 1
+
+
+def test_not_find():
+    a = DynamicArray()
+    assert a.find("abc") == -1
+
+
+def test_find():
+    a = DynamicArray(val=(1, "abc", 3.4))
+    assert a.find("abc") == 1
+
+
 def test_out_of_range():
     a = DynamicArray()
     with pytest.raises(IndexError, match="out of range"):

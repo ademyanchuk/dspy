@@ -35,6 +35,20 @@ class DynamicArray:
         self._raise_if_out_range(idx)
         self._arr[idx] = val
 
+    def __delitem__(self, idx: int):
+        """Delete element at index `idx`,
+        shift all trailing elements left [O(n) time]
+
+        Args:
+            idx (int): index to delete
+        """
+        idx = self._normalize_idx(idx)
+        self._raise_if_out_range(idx)
+        for i in range(idx, self._size - 1):
+            self._arr[i] = self._arr[i + 1]
+        self._size -= 1
+        self._maybe_shrink()
+
     def __repr__(self) -> str:
         return f"{__class__.__name__}(val=None)"
 
@@ -81,12 +95,36 @@ class DynamicArray:
         self.insert(0, val)
 
     def pop(self) -> Any:
+        """Delete last element and returns its value
+
+        Raises:
+            IndexError: if trying to pop from empty list
+
+        Returns:
+            Any: value of the last element
+        """
         if not self:
             raise IndexError("Trying to pop from empty list")
         val = self[-1]
         self._size -= 1
         self._maybe_shrink()
         return val
+
+    def find(self, val: Any) -> int:
+        """Looks for val in the array
+
+        Args:
+            val (Any): value to find
+
+        Returns:
+            int: index at which value was found,
+            -1 if not found
+        """
+        val_type = type(val)
+        for i, elem in enumerate(self):
+            if isinstance(elem, val_type) and elem == val:
+                return i
+        return -1
 
     def _make_array(self, capacity: int):
         return (capacity * ctypes.py_object)()
