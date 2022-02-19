@@ -103,5 +103,9 @@ def test_pop():
 
 
 def test_maybe_shrink():
-    # TODO
-    assert False
+    a = DynamicArray(val=(1,))
+    a._resize(8)
+    big_cap = a._cap
+    # now len is 1, cap is 8
+    a._maybe_shrink()
+    assert a._cap == big_cap // 2
