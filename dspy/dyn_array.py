@@ -26,10 +26,12 @@ class DynamicArray:
         return self._size
 
     def __getitem__(self, idx: int):
+        idx = self._normalize_idx(idx)
         self._raise_if_out_range(idx)
         return self._arr[idx]
 
     def __setitem__(self, idx: int, val: Any):
+        idx = self._normalize_idx(idx)
         self._raise_if_out_range(idx)
         self._arr[idx] = val
 
@@ -40,10 +42,35 @@ class DynamicArray:
         return "DynamicArray([" + ",".join(str(n) for n in self) + "])"
 
     def append(self, val: Any):
-        if len(self) == self._cap:
-            self._resize(self._cap * 2)
+        """Push (pythonic append) ammortized O(1)
+
+        Args:
+            val (Any): value to append to the end of
+            the array
+        """
+        self._maybe_grow()
         self._arr[len(self)] = val
         self._size += 1
+
+    def insert(self, idx: int, val: Any):
+        """Insert `val` at index `idx` and
+        shift the rest of an array after `idx`
+        one step to the right
+
+        Args:
+            idx (int): valid array index
+            val (Any): value to insert
+        """
+        idx = self._normalize_idx(idx)
+        self._raise_if_out_range(idx)
+        self._maybe_grow()
+
+        end = len(self) - 1
+        for i in range(end, idx - 1, -1):
+            self._arr[i + 1] = self[i]
+        self._size += 1
+
+        self[idx] = val
 
     def _make_array(self, capacity: int):
         return (capacity * ctypes.py_object)()
@@ -63,5 +90,27 @@ class DynamicArray:
         self._arr = _arr
 
     def _raise_if_out_range(self, idx: int):
-        if idx >= self._size:
+        if idx >= self._size or idx < 0:
             raise IndexError("list index out of range")
+
+    def _maybe_grow(self):
+        """Helpper to increase capacity"""
+        if len(self) == self._cap:
+            self._resize(self._cap * 2)
+
+    def _normalize_idx(self, idx: int) -> int:
+        """Helper to convert index to its
+        positive representation. If it is
+        negative after conversio, it is out
+        of list range (to the left so to say)
+
+        Args:
+            idx (int): index to convert
+
+        Returns:
+            [int]: index after conversion
+        """
+        if idx >= 0:
+            return idx
+        else:
+            return len(self) + idx
