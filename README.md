@@ -9,11 +9,7 @@ Here is install example:
 - `cd` into cloned folder and `pip install` it
 
 # How to use it?
-TODO: Describe use cases, give examples
-
-## Default behaviour
-
-## Custom behaviour
+You don't want to use data structures implemented here. This repository is for learning purposes only.
 
 # Dev Notes
 - perhaps use virtual environment
