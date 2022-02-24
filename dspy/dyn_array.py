@@ -4,7 +4,7 @@ from typing import Any, Optional, Sequence
 
 
 class DynamicArray:
-    """Own implementation of dynamicaly
+    """Own implementation of dynamically
     resizable array data structure. Implementation
     is using ctypes py_object to make a array similar
     to python built-in list.
@@ -59,7 +59,7 @@ class DynamicArray:
         return "DynamicArray([" + ",".join(str(n) for n in self) + "])"
 
     def append(self, val: Any):
-        """Push (pythonic append) ammortized O(1)
+        """Push (pythonic append) amortized O(1)
 
         Args:
             val (Any): value to append to the end of
@@ -90,7 +90,7 @@ class DynamicArray:
         self[idx] = val
 
     def prepend(self, val: Any):
-        """Wraper to insert at index 0
+        """Wrapper to insert at index 0
 
         Args:
             val (Any): value to prepend
@@ -163,7 +163,7 @@ class DynamicArray:
     def _normalize_idx(self, idx: int) -> int:
         """Helper to convert index to its
         positive representation. If it is
-        negative after conversio, it is out
+        negative after conversion, it is out
         of list range (to the left so to say)
 
         Args:
