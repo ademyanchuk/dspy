@@ -147,6 +147,34 @@ def test_pop_raises():
         a.pop()
 
 
+def test_no_remove():
+    a = DynamicArray(val=(1, 2, 3))
+    old_size = len(a)
+    a.remove(4)
+    assert len(a) == old_size
+    assert str(a) == "DynamicArray([1,2,3])"
+
+
+def test_remove_two():
+    a = DynamicArray(val=(1, 2, 3, 2, 4))
+    old_size = len(a)
+    a.remove(2)
+    print(a)
+    assert len(a) == old_size - 2
+    assert 2 not in a
+    assert str(a) == "DynamicArray([1,3,4])"
+
+
+def test_remove_three():
+    a = DynamicArray(val=(3, 1, 3, 2, 4, 3))
+    old_size = len(a)
+    a.remove(3)
+    print(a)
+    assert len(a) == old_size - 3
+    assert 3 not in a
+    assert str(a) == "DynamicArray([1,2,4])"
+
+
 def test_maybe_shrink():
     a = DynamicArray(val=(1,))
     a._resize(8)

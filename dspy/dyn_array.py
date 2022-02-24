@@ -129,6 +129,26 @@ class DynamicArray:
                 return i
         return -1
 
+    def remove(self, val: Any):
+        """Simple way to remove all values `val` in
+        our dynamic array. Collect all indices corresponding
+        to `val` and then use del on all found elements.
+        Most likely, not optimal.
+
+        Args:
+            val (Any): value to delete from the list
+        """
+        to_delete = []
+        val_type = type(val)
+        for i, elem in enumerate(self):
+            if isinstance(elem, val_type) and elem == val:
+                to_delete.append(i)
+        # deleting indexes starting from begining of the list
+        # will change all following indexes and they will point
+        # to wrong values
+        for i in reversed(to_delete):
+            del self[i]
+
     def _make_array(self, capacity: int):
         return (capacity * ctypes.py_object)()
 
