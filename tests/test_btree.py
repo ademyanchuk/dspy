@@ -1,6 +1,6 @@
 import pytest
 
-from dspy.bstree import BSTree
+from dspy.bstree import BSTree, level_traverse
 
 
 def test_dtype_is_none():
@@ -49,3 +49,28 @@ def test_insert():
     left = 12
     tree.insert(left)
     assert tree.root.left.val == left
+
+
+def test_level_traverse():
+    tree = BSTree()
+    values = [2, 3, 1]
+    want = [2, 1, 3]
+    for v in values:
+        tree.insert(v)
+    got = level_traverse(tree.root)
+    assert got == want
+
+
+def test_level_traverse_larger():
+    tree = BSTree()
+    want = [4, 2, 7, 1, 3, 6, 9]
+    for v in want:
+        tree.insert(v)
+    got = level_traverse(tree.root)
+    assert got == want
+
+
+def test_level_traverse_empty():
+    tree = BSTree()
+    got = level_traverse(tree.root)
+    assert not got
