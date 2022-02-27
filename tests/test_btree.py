@@ -1,6 +1,6 @@
 import pytest
 
-from dspy.bstree import BSTree, level_traverse
+from dspy.bstree import BSTree, find_by_value, level_traverse
 
 
 def test_dtype_is_none():
@@ -74,3 +74,19 @@ def test_level_traverse_empty():
     tree = BSTree()
     got = level_traverse(tree.root)
     assert not got
+
+
+def test_find_by_value_none():
+    tree = BSTree()
+    tree.insert(20)
+    tree.insert(10)
+    assert find_by_value(tree.root, 5) is None
+
+
+def test_find_by_value():
+    tree = BSTree()
+    tree.insert(20)
+    tree.insert(10)
+    tree.insert(30)
+    node = find_by_value(tree.root, 10)
+    assert node is not None and node == tree.root.left

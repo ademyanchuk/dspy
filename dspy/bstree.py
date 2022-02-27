@@ -81,3 +81,15 @@ def level_traverse(root: Optional[TreeNode]) -> List[Any]:
         if rht := node.right:
             fifo.put(rht)
     return values
+
+
+# assume it is not binary search tree
+def find_by_value(root: TreeNode, val: int) -> Optional[TreeNode]:
+    if val == root.val:
+        return root
+    elif root.left is not None:
+        return find_by_value(root.left, val)
+    elif root.right is not None:
+        return find_by_value(root.right, val)
+    else:
+        return None
