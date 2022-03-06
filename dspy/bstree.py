@@ -19,11 +19,20 @@ class BSTree:
         if values:
             self._from_values(values)
 
+    def __contains__(self, val: Any) -> bool:
+        return not self.find(val) is None
+
     # NOTE! Remember, if recursive function called with None object
     # it brakes referencing to the not-None object and you modify nothing
     # if _insert takes node=None, and then try to assign some value to it,
     # this evaluates into None = TreeNode(val) and breaks the recursive chain!
     def insert(self, val: Any):
+        """Insert a Node with value `val` in the tree
+        according to BS Tree invariant
+
+        Args:
+            val (Any): value to insert
+        """
         self._dtype = val
         self._check_dtype_mismatch(val)  # raise if trying to insert new dtype
 
@@ -49,6 +58,11 @@ class BSTree:
             self.insert(val)
 
     def inorder(self) -> List[Any]:
+        """In order BS Tree traversal
+
+        Returns:
+            List[Any]: list of values [in order]
+        """
         values = []
 
         def inner(node: Optional[TreeNode]):
@@ -62,6 +76,15 @@ class BSTree:
         return values
 
     def find(self, val: Any) -> Optional[TreeNode]:
+        """Find a Node containing a value `val`
+
+        Args:
+            val (Any): value to find
+
+        Returns:
+            Optional[TreeNode]: Node if `val` found,
+            None otherwise
+        """
         if not self.root:
             return None
         try:

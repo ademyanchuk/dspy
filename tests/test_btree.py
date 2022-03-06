@@ -117,3 +117,8 @@ def test_find_incompatible():
 def test_find_valid():
     tree = BSTree(values=[1, 2, 3, -1, -2])
     assert tree.find(1).val == 1
+
+
+def test_in():
+    tree = BSTree(values=[2, 1, 3])
+    assert 3 in tree
