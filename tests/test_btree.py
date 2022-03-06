@@ -49,6 +49,9 @@ def test_insert():
     left = 12
     tree.insert(left)
     assert tree.root.left.val == left
+    left = 12
+    tree.insert(left)
+    assert tree.root.left.right.val == left
 
 
 def test_init_from_values():

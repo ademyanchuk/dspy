@@ -34,24 +34,18 @@ class BSTree:
             val (Any): value to insert
         """
         self._dtype = val
-        self._check_dtype_mismatch(val)  # raise if trying to insert new dtype
+        self._check_dtype_mismatch(val)
 
-        def _insert(node: TreeNode, val: Any):
+        def _insert(node: Optional[TreeNode], val: Any) -> TreeNode:
+            if node is None:
+                return TreeNode(val=val)
             if val < node.val:
-                if node.left is None:
-                    node.left = TreeNode(val)
-                else:
-                    _insert(node.left, val)
+                node.left = _insert(node.left, val)
             else:
-                if node.right is None:
-                    node.right = TreeNode(val)
-                else:
-                    _insert(node.right, val)
+                node.right = _insert(node.right, val)
+            return node
 
-        if self.root is None:
-            self.root = TreeNode(val)
-        else:
-            _insert(self.root, val)
+        self.root = _insert(self.root, val)
 
     def _from_values(self, values: List[Any]):
         for val in values:
