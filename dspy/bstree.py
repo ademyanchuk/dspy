@@ -101,6 +101,22 @@ class BSTree:
 
         return _find(self.root, val)
 
+    def height(self) -> int:
+        """Returns tree height
+
+        Returns:
+            int: height represents a longest
+            downward pass from the root (number
+            of edges in the longest subtree from root)
+        """
+
+        def _height(node: Optional[TreeNode]) -> int:
+            if node is None or _is_leaf(node):
+                return 0
+            return max(_height(node.left), _height(node.right)) + 1
+
+        return _height(self.root)
+
     @property
     def _dtype(self):
         return self.__dtype
@@ -153,3 +169,7 @@ def find_by_value(root: TreeNode, val: int) -> Optional[TreeNode]:
         return find_by_value(root.right, val)
     else:
         return None
+
+
+def _is_leaf(node: TreeNode) -> bool:
+    return not (node.left or node.right)
