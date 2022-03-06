@@ -26,15 +26,28 @@ class BSTree:
     # it brakes referencing to the not-None object and you modify nothing
     # if _insert takes node=None, and then try to assign some value to it,
     # this evaluates into None = TreeNode(val) and breaks the recursive chain!
-    def insert(self, val: Any):
+    def insert(self, val: Any) -> bool:
         """Insert a Node with value `val` in the tree
-        according to BS Tree invariant
+        according to BS Tree invariant. Value type mis-
+        match and duplicates are not allowed
 
         Args:
             val (Any): value to insert
+
+        Returns:
+            bool: True if successfully insert a value,
+            False otherwise [incorrect value type,
+            duplicate]
         """
         self._dtype = val
-        self._check_dtype_mismatch(val)
+        try:
+            self._check_dtype_mismatch(val)
+        except AttributeError:
+            return False
+
+        # duplicates are not allowed
+        if val in self:
+            return False
 
         def _insert(node: Optional[TreeNode], val: Any) -> TreeNode:
             if node is None:
@@ -46,6 +59,7 @@ class BSTree:
             return node
 
         self.root = _insert(self.root, val)
+        return True
 
     def _from_values(self, values: List[Any]):
         for val in values:

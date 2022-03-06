@@ -44,14 +44,28 @@ def test_check_dtype_mismatch():
 def test_insert():
     tree = BSTree()
     root = 123
-    tree.insert(root)
+    assert tree.insert(root)
     assert tree.root.val == root
     left = 12
-    tree.insert(left)
+    assert tree.insert(left)
     assert tree.root.left.val == left
-    left = 12
-    tree.insert(left)
+    left = 13
+    assert tree.insert(left)
     assert tree.root.left.right.val == left
+
+
+def test_insert_mismatch():
+    tree = BSTree(
+        values=[
+            2,
+        ]
+    )
+    assert not tree.insert("a")
+
+
+def test_insert_duplicate():
+    tree = BSTree(values=[2, 1, 3])
+    assert not tree.insert(2)
 
 
 def test_init_from_values():
