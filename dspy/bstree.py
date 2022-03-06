@@ -13,9 +13,11 @@ class TreeNode:
 
 
 class BSTree:
-    def __init__(self) -> None:
+    def __init__(self, values: Optional[List[Any]] = None) -> None:
         self.root = None
         self.__dtype = None
+        if values:
+            self._from_values(values)
 
     # NOTE! Remember, if recursive function called with None object
     # it brakes referencing to the not-None object and you modify nothing
@@ -23,6 +25,7 @@ class BSTree:
     # this evaluates into None = TreeNode(val) and breaks the recursive chain!
     def insert(self, val: Any):
         self._dtype = val
+        self._check_dtype_mismatch(val)  # raise if trying to insert new dtype
 
         def _insert(node: TreeNode, val: Any):
             if val < node.val:
@@ -40,6 +43,46 @@ class BSTree:
             self.root = TreeNode(val)
         else:
             _insert(self.root, val)
+
+    def _from_values(self, values: List[Any]):
+        for val in values:
+            self.insert(val)
+
+    def inorder(self) -> List[Any]:
+        values = []
+
+        def inner(node: Optional[TreeNode]):
+            if not node:
+                return
+            inner(node.left)
+            values.append(node.val)
+            inner(node.right)
+
+        inner(self.root)
+        return values
+
+    def find(self, val: Any) -> Optional[TreeNode]:
+        if not self.root:
+            return None
+        try:
+            self._check_dtype_mismatch(val)
+        except AttributeError:
+            print(
+                f"Trying to find incompatible value of type {type(val)}, in the Tree with type: {self._dtype}"
+            )
+            return None
+
+        def _find(node: Optional[TreeNode], val: Any):
+            if not node:
+                return None
+            if node.val == val:
+                return node
+            elif val < node.val:
+                return _find(node.left, val)
+            else:
+                return _find(node.right, val)
+
+        return _find(self.root, val)
 
     @property
     def _dtype(self):

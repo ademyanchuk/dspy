@@ -51,6 +51,11 @@ def test_insert():
     assert tree.root.left.val == left
 
 
+def test_init_from_values():
+    tree = BSTree(values=[2, 1, 3])
+    assert tree.root.val == 2 and tree.root.left.val == 1 and tree.root.right.val == 3
+
+
 def test_level_traverse():
     tree = BSTree()
     values = [2, 3, 1]
@@ -90,3 +95,25 @@ def test_find_by_value():
     tree.insert(30)
     node = find_by_value(tree.root, 10)
     assert node is not None and node == tree.root.left
+
+
+def test_inorder():
+    values = [4, 3, 9, 1, 12, 2, 0]
+    tree = BSTree(values)
+    got = tree.inorder()
+    assert got == sorted(values)
+
+
+def test_find_empty():
+    tree = BSTree()
+    assert tree.find(123) is None
+
+
+def test_find_incompatible():
+    tree = BSTree(values=[1, 2, 3])
+    assert tree.find("abc") is None
+
+
+def test_find_valid():
+    tree = BSTree(values=[1, 2, 3, -1, -2])
+    assert tree.find(1).val == 1
