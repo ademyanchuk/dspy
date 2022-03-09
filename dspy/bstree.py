@@ -1,7 +1,7 @@
 """Binary Search Tree Implementation"""
 
 import queue
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Tuple
 
 
 # Definition for a binary tree node.
@@ -60,6 +60,13 @@ class BSTree:
 
         self.root = _insert(self.root, val)
         return True
+
+    def del_value(self, val: Any) -> bool:
+        try:
+            self._check_dtype_mismatch(val)
+        except AttributeError:
+            return False
+        return False
 
     def _from_values(self, values: List[Any]):
         for val in values:
@@ -187,3 +194,18 @@ def find_by_value(root: TreeNode, val: int) -> Optional[TreeNode]:
 
 def _is_leaf(node: TreeNode) -> bool:
     return not (node.left or node.right)
+
+
+def _first(root: TreeNode) -> TreeNode:
+    """Return a first in "inorder" traversal order
+    of the `root` subtree
+
+    Args:
+        root (TreeNode): root of subtree
+
+    Returns:
+        TreeNode: first node in subtree
+    """
+    if root.left is None:
+        return root
+    return _first(root.left)

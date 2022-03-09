@@ -1,6 +1,13 @@
 import pytest
 
-from dspy.bstree import BSTree, TreeNode, _is_leaf, find_by_value, level_traverse
+from dspy.bstree import (
+    BSTree,
+    TreeNode,
+    _first,
+    _is_leaf,
+    find_by_value,
+    level_traverse,
+)
 
 
 def test_dtype_is_none():
@@ -159,3 +166,15 @@ def test_is_leaf():
 def test_is_leaf2():
     node = TreeNode(val=2, left=TreeNode(3), right=TreeNode(4))
     assert not _is_leaf(node)
+
+
+def test_first_root():
+    tree = BSTree(values=[1])
+    node = _first(tree.root)
+    assert node == tree.root
+
+
+def test_first():
+    tree = BSTree(values=[2, 1, 0])
+    first = _first(tree.root)
+    assert first == tree.root.left.left
