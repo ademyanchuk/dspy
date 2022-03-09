@@ -66,7 +66,40 @@ class BSTree:
             self._check_dtype_mismatch(val)
         except AttributeError:
             return False
-        return False
+
+        if self.find(val) is None:
+            return False
+
+        def _delete(node: Optional[TreeNode], val: Any) -> Optional[TreeNode]:
+            if node is None:
+                return node
+            if val < node.val:
+                node.left = _delete(node.left, val)
+            elif val > node.val:
+                node.right = _delete(node.right, val)
+            else:  # delete this node
+                # Cases one or both children is None
+                # case left is None
+                if node.left is None:
+                    tmp = node.right
+                    node = None
+                    return tmp
+                elif node.right is None:
+                    tmp = node.left
+                    node = None
+                    return tmp
+                # Two children case
+                else:
+                    # Find successor
+                    suc = _first(node.right)
+                    # Swap values
+                    node.val, suc.val = suc.val, node.val
+                    # Delete swapped node down in the right subtree
+                    node.right = _delete(node.right, val)
+            return node
+
+        self.root = _delete(self.root, val)
+        return True
 
     def _from_values(self, values: List[Any]):
         for val in values:

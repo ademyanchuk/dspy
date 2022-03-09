@@ -75,6 +75,40 @@ def test_insert_duplicate():
     assert not tree.insert(2)
 
 
+def test_del_value_mismatch():
+    tree = BSTree(values=[2, 1, 3])
+    assert not tree.del_value("a")
+
+
+def test_del_value_not_present():
+    tree = BSTree(values=[10, 3, 20])
+    assert not tree.del_value(100)
+
+
+def test_del_value_leaf():
+    tree = BSTree(values=[5, 1, 12])
+    assert tree.del_value(12)
+    assert 12 not in tree
+
+
+def test_del_value_left_child():
+    tree = BSTree(values=[6, 4, 9, 2])
+    assert tree.del_value(4)
+    assert tree.inorder() == [2, 6, 9]
+
+
+def test_del_value_right_child():
+    tree = BSTree(values=[6, 4, 9, 5])
+    assert tree.del_value(4)
+    assert tree.inorder() == [5, 6, 9]
+
+
+def test_del_value_two_children():
+    tree = BSTree(values=[8, 3, 12, 10, 18, 17, 11, 9])
+    assert tree.del_value(12)
+    assert tree.inorder() == [3, 8, 9, 10, 11, 17, 18]
+
+
 def test_init_from_values():
     tree = BSTree(values=[2, 1, 3])
     assert tree.root.val == 2 and tree.root.left.val == 1 and tree.root.right.val == 3
