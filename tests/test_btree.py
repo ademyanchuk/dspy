@@ -5,6 +5,7 @@ from dspy.bstree import (
     TreeNode,
     _first,
     _is_leaf,
+    _last,
     find_by_value,
     level_traverse,
 )
@@ -212,3 +213,19 @@ def test_first():
     tree = BSTree(values=[2, 1, 0])
     first = _first(tree.root)
     assert first == tree.root.left.left
+
+
+def test_last():
+    tree = BSTree(values=[0, 1, 2])
+    last = _last(tree.root)
+    assert last == tree.root.right.right
+
+
+def test_min():
+    tree = BSTree(values=[5, 2, 1, 30, 12, 19])
+    assert tree.min() == 1
+
+
+def test_max():
+    tree = BSTree(values=[5, 2, 1, 30, 12, 19])
+    assert tree.max() == 30
