@@ -266,3 +266,17 @@ def test_list_insert_in_range_negative():
     llist.insert(-3, 10)  # -3 is index 1 for current list
     assert len(llist) == length + 1
     assert llist[-4].data == 10  # -4 is index 1 for updated list
+
+
+def test_reverse():
+    llist = LinkedList()
+    for i in range(5):
+        llist.push_front(i)
+    llist.reverse()
+    assert str(llist) == "LinkedList([0,1,2,3,4])"
+
+
+def test_reverse_one():
+    llist = LinkedList(1)
+    llist.reverse()
+    assert llist.head == llist.tail

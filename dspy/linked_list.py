@@ -221,10 +221,24 @@ class LinkedList(Generic[T]):
             before.next = node
             self._size += 1
 
+    def reverse(self):
+        """Reverse linked list [recursive]"""
+
+        def _reverse(head: Optional[ListNode]):
+            if head is None or head.next is None:
+                return head
+            rev = _reverse(head.next)
+            head.next.next = head  # flip direction
+            return rev
+
+        tmp = _reverse(self.head)
+        self.tail = self.head
+        self.head = tmp
+
     def _normalize_idx(self, idx: int) -> int:
         """Helper to convert index to its
         positive representation. If it is
-        negative after conversio, it is out
+        negative after conversion, it is out
         of list range (to the left so to say)
 
         Args:
