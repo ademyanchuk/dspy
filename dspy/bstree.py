@@ -16,6 +16,7 @@ class BSTree:
     def __init__(self, values: Optional[List[Any]] = None) -> None:
         self.root = None
         self.__dtype = None
+        self._size = 0
         if values:
             self._from_values(values)
 
@@ -59,6 +60,7 @@ class BSTree:
             return node
 
         self.root = _insert(self.root, val)
+        self._size += 1
         return True
 
     def del_value(self, val: Any) -> bool:
@@ -99,7 +101,27 @@ class BSTree:
             return node
 
         self.root = _delete(self.root, val)
+        self._size -= 1
         return True
+
+    def delete(self):
+        self.root = None
+        self._size = 0
+
+    def is_bstree(self) -> bool:
+        def _is_bstree(root: Optional[TreeNode]) -> bool:
+            if root is None:
+                return True
+            left = True
+            if root.left:
+                left = root.left.val < root.val
+            right = True
+            if root.right:
+                right = root.right.val > root.val
+            current = left and right
+            return _is_bstree(root.left) and current and _is_bstree(root.right)
+
+        return _is_bstree(self.root)
 
     def _from_values(self, values: List[Any]):
         for val in values:
@@ -170,6 +192,9 @@ class BSTree:
             return max(_height(node.left), _height(node.right)) + 1
 
         return _height(self.root)
+
+    def get_node_count(self) -> int:
+        return self._size
 
     def min(self) -> Optional[Any]:
         if self.root is None:

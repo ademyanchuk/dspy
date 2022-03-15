@@ -229,3 +229,52 @@ def test_min():
 def test_max():
     tree = BSTree(values=[5, 2, 1, 30, 12, 19])
     assert tree.max() == 30
+
+
+def test_get_node_count_empty():
+    tree = BSTree()
+    assert tree.get_node_count() == 0
+
+
+def test_get_node_count_insert():
+    vals = [4, 5, 1, 0, 3]
+    tree = BSTree(values=vals)
+    # duplicate will not be inserted
+    tree.insert(5)
+    assert tree.get_node_count() == len(vals)
+
+
+def test_get_node_count_delete():
+    vals = [4, 5, 1, 0, 3]
+    tree = BSTree(values=vals)
+    tree.del_value(5)
+    # not in tree will not be deleted
+    tree.del_value(5)
+    assert tree.get_node_count() == len(vals) - 1
+
+
+def test_delete():
+    tree = BSTree([1, 2, 323, 12, 3])
+    tree.delete()
+    assert tree.root is None
+    assert tree.get_node_count() == 0
+
+
+def test_is_bstree_none():
+    tree = BSTree()
+    assert tree.is_bstree()
+
+
+def test_is_bstree():
+    tree = BSTree(values=[4, 1, 0, 22, 11, 2])
+    tree.del_value(22)
+    tree.insert(54)
+    assert tree.is_bstree()
+
+
+def test_not_is_bstree():
+    tree = BSTree()
+    node = TreeNode(val=5, left=TreeNode(1), right=TreeNode(10))
+    node.right.right = TreeNode(1)
+    tree.root = node
+    assert not tree.is_bstree()
