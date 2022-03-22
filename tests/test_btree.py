@@ -278,3 +278,23 @@ def test_not_is_bstree():
     node.right.right = TreeNode(1)
     tree.root = node
     assert not tree.is_bstree()
+
+
+def test_get_successor_empty():
+    tree = BSTree()
+    assert tree.get_successor(3) == -1
+
+
+def test_get_successor_not_found():
+    tree = BSTree(values=[4, 1, 2, 10, 0])
+    assert tree.get_successor(3) == -1
+
+
+def test_get_successor_right_path():
+    tree = BSTree(values=[5, 1, 2, 10, 8, 7])
+    assert tree.get_successor(5) == 7
+
+
+def test_get_successor_left_path():
+    tree = BSTree(values=[5, 1, 2, 3, 10, 8])
+    assert tree.get_successor(3) == 5

@@ -196,6 +196,35 @@ class BSTree:
     def get_node_count(self) -> int:
         return self._size
 
+    def get_successor(self, val: Any) -> Any:
+        """Returns a next value after `val`
+        in "in-order" order.
+
+        Args:
+            val (Any): value for which we want to
+            find a successor
+
+        Returns:
+            Any: successor value or -1, if `val` not
+            in the tree, or `val` is max of tree
+        """
+        current = self.find(val)
+        if current is None or val == self.max():
+            return -1
+        # case 1: current has right subtree
+        if current.right:
+            return _first(current.right).val
+        # case 2: only has left, need to use 2 pointers
+        ancestor = self.root
+        successor = None
+        while ancestor != current:
+            if current.val < ancestor.val:  # left path
+                successor = ancestor  # update successor only in the left path
+                ancestor = ancestor.left
+            else:
+                ancestor = ancestor.right
+        return successor.val if successor else -1
+
     def min(self) -> Optional[Any]:
         if self.root is None:
             return None
