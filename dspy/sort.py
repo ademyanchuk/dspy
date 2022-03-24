@@ -13,4 +13,19 @@ def merge_sort(arr: List[int]) -> List[int]:
 
 
 def merge(left: List[int], right: List[int]) -> List[int]:
-    pass
+    if not left:
+        return right
+    if not right:
+        return left
+    i = j = 0
+    merged = []
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    merged += left[i:]
+    merged += right[j:]
+    return merged
