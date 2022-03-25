@@ -65,3 +65,11 @@ def insertion_sort(arr: List[int]):
             j -= 1
         # found insertion point
         arr[j + 1] = hold
+
+
+def bubble_sort(arr: List[int]):
+    for end in range(len(arr) - 1, 0, -1):
+        for start in range(0, end):
+            if arr[start] > arr[start + 1]:
+                # bubble up
+                arr[start], arr[start + 1] = arr[start + 1], arr[start]

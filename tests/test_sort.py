@@ -110,3 +110,36 @@ def test_insertion_sort_big(big):
     want = sorted(big)
     sort.insertion_sort(big)
     assert big == want
+
+
+def test_bubble_sort_empty():
+    a = []
+    sort.bubble_sort(a)
+    assert not a
+
+
+def test_bubble_sort_one():
+    a = [1]
+    sort.bubble_sort(a)
+    assert a == [1]
+
+
+def test_bubble_sort_even():
+    a = [1, 10, 9, 2, 3, 18, 0, -1, 23, 2]
+    want = sorted(a)
+    sort.bubble_sort(a)
+    assert a == want
+
+
+def test_bubble_sort_odd():
+    a = [1, 10, 9, 2, 3, 18, 0, -1, 23, 2, 12]
+    want = sorted(a)
+    sort.bubble_sort(a)
+    assert a == want
+
+
+def test_bubble_sort_big(big):
+    big = big[:1000]
+    want = sorted(big)
+    sort.bubble_sort(big)
+    assert big == want
