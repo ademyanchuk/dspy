@@ -45,3 +45,35 @@ def test_merge_sort_odd():
 
 def test_merge_sort_big(big):
     assert sort.merge_sort(big) == sorted(big)
+
+
+def test_quick_sort_empty():
+    a = []
+    sort.quick_sort(a, 0, len(a) - 1)
+    assert not a
+
+
+def test_quick_sort_one():
+    a = [1]
+    sort.quick_sort(a, 0, len(a) - 1)
+    assert a == [1]
+
+
+def test_quick_sort_even():
+    a = [1, 10, 9, 2, 3, 18, 0, -1, 23, 2]
+    want = sorted(a)
+    sort.quick_sort(a, 0, len(a) - 1)
+    assert a == want
+
+
+def test_quick_sort_odd():
+    a = [1, 10, 9, 2, 3, 18, 0, -1, 23, 2, 12]
+    want = sorted(a)
+    sort.quick_sort(a, 0, len(a) - 1)
+    assert a == want
+
+
+def test_quick_sort_big(big):
+    want = sorted(big)
+    sort.quick_sort(big, 0, len(big) - 1)
+    assert big == want
