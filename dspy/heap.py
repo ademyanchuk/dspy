@@ -6,10 +6,11 @@ from typing import List
 
 class Heap:
     def __init__(self) -> None:
-        pass
+        self._store = []
+        self._size = len(self._store)
 
     def __len__(self) -> int:
-        pass
+        return self._size
 
     def insert(self, val: int) -> None:
         pass
