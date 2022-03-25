@@ -7,7 +7,7 @@ from dspy import sort
 
 @pytest.fixture(scope="module")
 def big():
-    return random.sample(range(1_000_000), k=999_000)
+    return random.sample(range(1_000_000), k=100_000)
 
 
 def test_merge_empty():
@@ -76,4 +76,37 @@ def test_quick_sort_odd():
 def test_quick_sort_big(big):
     want = sorted(big)
     sort.quick_sort(big, 0, len(big) - 1)
+    assert big == want
+
+
+def test_insertion_sort_empty():
+    a = []
+    sort.insertion_sort(a)
+    assert not a
+
+
+def test_insertion_sort_one():
+    a = [1]
+    sort.insertion_sort(a)
+    assert a == [1]
+
+
+def test_insertion_sort_even():
+    a = [1, 10, 9, 2, 3, 18, 0, -1, 23, 2]
+    want = sorted(a)
+    sort.insertion_sort(a)
+    assert a == want
+
+
+def test_insertion_sort_odd():
+    a = [1, 10, 9, 2, 3, 18, 0, -1, 23, 2, 12]
+    want = sorted(a)
+    sort.insertion_sort(a)
+    assert a == want
+
+
+def test_insertion_sort_big(big):
+    big = big[:1000]
+    want = sorted(big)
+    sort.insertion_sort(big)
     assert big == want

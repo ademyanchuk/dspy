@@ -54,3 +54,14 @@ def partition(arr: List[int], left: int, right: int) -> int:
     # mem is the last index with element <= pivot
     arr[mem], arr[right] = arr[right], arr[mem]
     return mem
+
+
+def insertion_sort(arr: List[int]):
+    for i in range(1, len(arr)):
+        hold = arr[i]
+        j = i - 1
+        while (j > -1) and (hold < arr[j]):
+            arr[j + 1] = arr[j]  # move right to find insertion place
+            j -= 1
+        # found insertion point
+        arr[j + 1] = hold
