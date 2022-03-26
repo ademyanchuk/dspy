@@ -23,10 +23,20 @@ class Heap:
         self._sift_up(idx)
 
     def _sift_up(self, idx: int) -> None:
-        pass
+        # at root
+        if idx == 0:
+            return
+        parent_idx = _parent_id(idx)
+        if self._store[idx] > self._store[parent_idx]:
+            self._store[parent_idx], self._store[idx] = (
+                self._store[idx],
+                self._store[parent_idx],
+            )
+            self._sift_up(parent_idx)
 
     def get_max(self) -> int:
-        pass
+        self._raise_empty()
+        return self._store[0]
 
     def extract_max(self) -> int:
         pass
@@ -36,6 +46,10 @@ class Heap:
 
     def _heapify(self, values: List[int]):
         pass
+
+    def _raise_empty(self):
+        if not self:
+            raise IndexError("Trying to access empty heap")
 
 
 def heap_sort(arr: List[int]):
@@ -67,9 +81,13 @@ def _is_max_heap(heap: Heap, idx: int = 0) -> bool:
     return left and right
 
 
-def _left_child_id(idx: int):
+def _left_child_id(idx: int) -> int:
     return 2 * idx + 1
 
 
-def _right_child_id(idx: int):
+def _right_child_id(idx: int) -> int:
     return 2 * idx + 2
+
+
+def _parent_id(idx: int) -> int:
+    return (idx - 1) // 2

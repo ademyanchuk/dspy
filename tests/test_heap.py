@@ -47,5 +47,23 @@ def test_insert_is_in():
 def test_insert_is_heap():
     h = heap.Heap()
     h.insert(23)
+    h.insert(50)
     h.insert(100)
+    h.insert(250)
+    h.insert(120)
     assert heap._is_max_heap(h)
+    print(h._store)
+
+
+def test_get_max_raises():
+    h = heap.Heap()
+    with pytest.raises(IndexError, match="empty heap"):
+        h.get_max()
+
+
+def test_get_max():
+    h = heap.Heap()
+    h.insert(100)
+    h.insert(509)
+    h.insert(2)
+    assert h.get_max() == max(h._store)
