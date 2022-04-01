@@ -67,3 +67,25 @@ def test_get_max():
     h.insert(509)
     h.insert(2)
     assert h.get_max() == max(h._store)
+
+
+def test_extract_max():
+    h = heap.Heap()
+    h.insert(100)
+    h.insert(509)
+    h.insert(2)
+    want = max(h._store)
+    assert h.extract_max() == want
+    assert want not in h._store
+
+
+def test_extract_max_is_heap():
+    h = heap.Heap()
+    h.insert(500)
+    h.insert(100)
+    h.insert(2)
+    h.extract_max()
+    h.insert(300)
+    h.insert(34)
+    h.extract_max()
+    assert heap._is_max_heap(h)

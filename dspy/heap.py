@@ -39,10 +39,32 @@ class Heap:
         return self._store[0]
 
     def extract_max(self) -> int:
-        pass
+        self._raise_empty()
+        # make root last element
+        self._store[0], self._store[-1] = self._store[-1], self._store[0]
+        # store value and delete last (former root)
+        value = self._store.pop()
+        # sift down if necessary
+        self._sift_down(0)
+        return value
 
     def _sift_down(self, idx: int) -> None:
-        pass
+        lch_id = _left_child_id(idx)
+        rch_id = _right_child_id(idx)
+        not_left = lch_id >= len(self)
+        not_right = rch_id >= len(self)
+        if not_left and not_right:
+            return
+        if not_left:
+            max_id = rch_id
+        elif not_right:
+            max_id = lch_id
+        else:
+            max_id = lch_id if self._store[lch_id] > self._store[rch_id] else rch_id
+        # swap if max child is > parent
+        self._store[idx], self._store[max_id] = self._store[max_id], self._store[idx]
+        # call recursively, if need to sift further down
+        self._sift_down(max_id)
 
     def _heapify(self, values: List[int]):
         pass
