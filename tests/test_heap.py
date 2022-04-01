@@ -1,3 +1,5 @@
+import random
+
 import pytest
 
 from dspy import heap
@@ -88,4 +90,11 @@ def test_extract_max_is_heap():
     h.insert(300)
     h.insert(34)
     h.extract_max()
+    assert heap._is_max_heap(h)
+
+
+def test_heapify():
+    values = [random.randint(-100, 300) for _ in range(100)]
+    h = heap.Heap(values=values)
+    print(h._store)
     assert heap._is_max_heap(h)

@@ -1,12 +1,14 @@
 """Max Heap Implementation for integers"""
 
 
-from typing import List
+from typing import List, Optional
 
 
 class Heap:
-    def __init__(self) -> None:
+    def __init__(self, values: Optional[List[int]] = None) -> None:
         self._store = []
+        if values:
+            self._heapify(values)
 
     def __len__(self) -> int:
         return len(self._store)
@@ -71,7 +73,18 @@ class Heap:
             self._sift_down(max_id)
 
     def _heapify(self, values: List[int]):
-        pass
+        self._store = values
+        end = len(self) // 2
+
+        def _inner(end: int):
+            start = end // 2
+            if start == end:
+                return
+            for i in range(start, end):
+                self._sift_down(i)
+            _inner(start)
+
+        _inner(end)
 
     def _raise_empty(self):
         if not self:
