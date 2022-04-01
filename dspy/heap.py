@@ -62,9 +62,13 @@ class Heap:
         else:
             max_id = lch_id if self._store[lch_id] > self._store[rch_id] else rch_id
         # swap if max child is > parent
-        self._store[idx], self._store[max_id] = self._store[max_id], self._store[idx]
-        # call recursively, if need to sift further down
-        self._sift_down(max_id)
+        if self._store[idx] < self._store[max_id]:
+            self._store[idx], self._store[max_id] = (
+                self._store[max_id],
+                self._store[idx],
+            )
+            # call recursively, if need to sift further down
+            self._sift_down(max_id)
 
     def _heapify(self, values: List[int]):
         pass
