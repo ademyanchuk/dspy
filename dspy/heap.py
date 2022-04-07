@@ -91,8 +91,12 @@ class Heap:
             raise IndexError("Trying to access empty heap")
 
 
-def heap_sort(arr: List[int]):
-    pass
+def heap_sort(arr: List[int]) -> List[int]:
+    hp = Heap(values=[-n for n in arr])  # negative for min-heap
+    res = []
+    while hp:
+        res.append(-hp.extract_max())  # reverse negative
+    return res
 
 
 def _is_max_heap(heap: Heap, idx: int = 0) -> bool:

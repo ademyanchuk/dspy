@@ -98,3 +98,15 @@ def test_heapify():
     h = heap.Heap(values=values)
     print(h._store)
     assert heap._is_max_heap(h)
+
+
+def test_heap_sort():
+    values = [random.randint(-1000, 1000) for _ in range(1000)]
+    got = heap.heap_sort(values)
+    assert got == sorted(values)
+
+
+def test_heap_sort_large():
+    values = [random.randint(-1000, 1000) for _ in range(100_000)]
+    got = heap.heap_sort(values)
+    assert got == sorted(values)
