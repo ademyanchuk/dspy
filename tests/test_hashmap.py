@@ -1,4 +1,4 @@
-from dspy.hashmap import MyHashMap
+from dspy.hashmap import Item, MyHashMap
 
 
 def test_init():
@@ -25,3 +25,13 @@ def test_add_item():
     for key, value in items:
         hm._add_item(key, value, table)
     assert all(item in table for item in items)
+
+
+def test_add_item_update():
+    cap = 16
+    table = [None] * cap
+    first, second = (10, 13), (10, 42)
+    hm = MyHashMap()
+    for key, value in (first, second):
+        hm._add_item(key, value, table)
+    assert Item(*first) not in table and Item(*second) in table

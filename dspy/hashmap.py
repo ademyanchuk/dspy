@@ -17,9 +17,12 @@ or -1 if this map contains no mapping for the key.
 """
 
 
+from collections import namedtuple
 from typing import Any, List, Optional
 
 DEL_FLAG = "_DEL_"
+
+Item = namedtuple("Item", ["key", "value"])
 
 
 class MyHashMap:
@@ -56,15 +59,19 @@ class MyHashMap:
         """
         return self._hash(key, trial) % m
 
-    def _add_item(self, key: int, value: int, table: List[Optional[Any]]) -> None:
+    def _add_item(self, key: int, value: int, table: List[Optional[Item]]) -> None:
         trial = 0
         cap = len(table)
+        item = Item(key, value)
         idx = self._key2idx(key, trial, cap)
         while table[idx] not in [None, DEL_FLAG]:
+            # update
+            if table[idx].key == item.key:
+                table[idx] = item
             trial += 1
             idx = self._key2idx(key, trial, cap)
         # open address, can add item
-        table[idx] = (key, value)
+        table[idx] = item
 
     def put(self, key: int, value: int) -> None:
         raise NotImplementedError
