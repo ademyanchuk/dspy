@@ -1,5 +1,5 @@
 import heapq
-from typing import List, Set, Tuple
+from typing import Dict, List, Set, Tuple
 
 
 def dfs_visit_list(
@@ -44,6 +44,37 @@ def dfs_list_iter(adj_list: List[List[int]]) -> List[int]:
         if i not in visited:
             ans.extend(dfs_visit_list_iter(i, adj_list, visited))
     return ans
+
+
+def bfs_list(
+    adj_list: List[List[int]], s: int
+) -> Tuple[Dict[int, int], Dict[int, int]]:
+    # keep parents dict, to recover shortest path if needed
+    level = {s: 0}
+    parent = {s: -1}
+    current = [s]
+    i = 1
+    while current:
+        next_level = []
+        for u in current:
+            for v in adj_list[u]:
+                if v not in level:
+                    level[v] = i
+                    parent[v] = u
+                    next_level.append(v)
+        current = next_level
+        i += 1
+    return level, parent
+
+
+def recover_path(parent, s, v):
+    if s not in parent or v not in parent:
+        return []
+    path = [v]
+    while v != s:
+        path.append(parent[v])
+        v = parent[v]
+    return list(reversed(path))
 
 
 """
