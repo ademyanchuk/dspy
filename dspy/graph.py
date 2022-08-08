@@ -96,9 +96,21 @@ if __name__ == "__main__":
         [],
         [2],
     ]
+    # test dfs
     ans = [2, 5, 1, 3, 0, 4]
     got = dfs_list(adj_list)
     assert got == ans, print(f"dfs_list: {got=} != {ans=}")
 
     got = dfs_list_iter(adj_list)
     assert got == ans, print(f"dfs_list_iter: {got=} != {ans=}")
+
+    # test bfs
+    s = 0
+    bfs_ans = {0: 0, 5: 1, 3: 1, 2: 2, 1: 2}
+    level, parent = bfs_list(adj_list, s)
+    assert level == bfs_ans, print(f"bfs_list: {level=} != {bfs_ans=}")
+    # and shortest path
+    v = 1
+    want_path = [0, 3, 1]
+    path = recover_path(parent, s, v)
+    assert path == want_path, print(f"recover path {s}->{v}: {path=} != {want_path=}")
